@@ -3,6 +3,4 @@
 --changeset mqqqmi:1
 --comment first migration
 
-CREATE TABLE pets(
-
-)
+CREATE TABLE pets();
