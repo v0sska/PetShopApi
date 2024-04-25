@@ -1,9 +1,6 @@
 package com.example.petshopapi.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,16 +15,22 @@ public class Pets {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "name")
     private String name;
 
+    @Column(name = "type")
     private String type;
 
+    @Column(name = "sex")
     private String sex;
 
+    @Column(name = "weight")
     private int weight;
 
+    @Column(name = "cost")
     private int cost;
 
+    @Column(name = "category")
     private int category;
 
     public Pets(String name, String type, String sex, int weight, int cost, int category) {
