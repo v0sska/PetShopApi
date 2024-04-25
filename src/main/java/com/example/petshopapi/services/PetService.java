@@ -1,5 +1,6 @@
 package com.example.petshopapi.services;
 
+import com.example.petshopapi.components.PetCategoryAnalyzer;
 import com.example.petshopapi.entities.Pets;
 import com.example.petshopapi.interfaces.IPetsService;
 import com.example.petshopapi.repositories.PetRepository;
@@ -14,8 +15,13 @@ public class PetService implements IPetsService {
 
     private PetRepository repository;
 
+    private PetCategoryAnalyzer analyzer;
+
     @Override
     public void add(Pets pets) {
+
+        analyzer.categoryChooser(pets);
+
         repository.save(pets);
     }
 
@@ -36,6 +42,6 @@ public class PetService implements IPetsService {
 
     @Override
     public List<Pets> listAll() {
-        return null;
+        return (List<Pets>) repository.findAll();
     }
 }

@@ -34,4 +34,9 @@ public class PetController {
         return service.searchById(id);
     }
 
+    @GetMapping(("/all"))
+    List<Pets> listAll(){
+        return service.listAll();
+    }
+
 }
