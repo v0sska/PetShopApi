@@ -1,6 +1,8 @@
 package com.example.petshopapi.interfaces;
 
 import com.example.petshopapi.entities.Pets;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 public interface IPetsService {
@@ -12,6 +14,8 @@ public interface IPetsService {
     void updateById(Long id, Pets pets);
 
     List<Pets> searchById(Long id);
+
+    void uploadPetsFromFile(MultipartFile fileToUpload);
 
     List<Pets> listAll();
 }

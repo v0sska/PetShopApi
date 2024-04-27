@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 @RestController
@@ -16,14 +18,21 @@ public class PetController {
     private IPetsService service;
 
     @PostMapping("/add")
-    ResponseEntity add(@RequestBody Pets pets){
+    ResponseEntity<String> add(@RequestBody Pets pets){
         service.add(pets);
 
         return new ResponseEntity<>("entity is added!", HttpStatus.CREATED);
     }
 
+    @PostMapping("/upload/files")
+    ResponseEntity<String> uploadFromFile(@RequestParam("file") MultipartFile multipartFile){
+        service.uploadPetsFromFile(multipartFile);
+
+        return new ResponseEntity<>("entities is added from file!", HttpStatus.OK);
+    }
+
     @DeleteMapping("/delete/{id}")
-    ResponseEntity deleteById(@PathVariable Long id){
+    ResponseEntity<String> deleteById(@PathVariable Long id){
         service.deleteById(id);
 
         return new ResponseEntity<>("entity is deleted!", HttpStatus.OK);
