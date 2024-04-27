@@ -4,6 +4,7 @@ import com.example.petshopapi.entities.Pets;
 import com.example.petshopapi.interfaces.IPetCategoryAnalyzer;
 import com.example.petshopapi.interfaces.IPetsService;
 import com.example.petshopapi.parsers.CsvParser;
+import com.example.petshopapi.parsers.XmlParser;
 import com.example.petshopapi.pojo.PetsPojo;
 import com.example.petshopapi.repositories.PetRepository;
 import lombok.AllArgsConstructor;
@@ -22,6 +23,8 @@ public class PetService implements IPetsService {
     private IPetCategoryAnalyzer analyzer;
 
     private CsvParser csvParser;
+
+    private XmlParser xmlParser;
 
     @Override
     public void add(Pets pets) {
@@ -49,11 +52,23 @@ public class PetService implements IPetsService {
 
     @SneakyThrows
     @Override
-    public void uploadPetsFromFile(MultipartFile fileToUpload) {
+    public void uploadPetsFromFileCSV(MultipartFile fileToUpload) {
 
         List<PetsPojo> pojoList = csvParser.loadPetsFromCSV(fileToUpload);
 
         List<Pets> uploadedPets = pojoList.stream()
+                .map(this::pojoToEntity)
+                .collect(Collectors.toList());
+
+        repository.saveAll(uploadedPets);
+    }
+
+    @SneakyThrows
+    @Override
+    public void uploadPetsFromFileXml(MultipartFile uploadFile) {
+        List<PetsPojo> petsPojos = xmlParser.readPetsFromXml(uploadFile);
+
+        List<Pets> uploadedPets = petsPojos.stream()
                 .map(this::pojoToEntity)
                 .collect(Collectors.toList());
 

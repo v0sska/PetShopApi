@@ -23,7 +23,7 @@ public class XmlParser {
 
     PetCategoryAnalyzer analyzer;
 
-    List<PetsPojo> readPetsFromXml(MultipartFile fileToRead) throws IOException {
+   public List<PetsPojo> readPetsFromXml(MultipartFile fileToRead) throws IOException {
 
         File tempFile = File.createTempFile("temp", null);
 

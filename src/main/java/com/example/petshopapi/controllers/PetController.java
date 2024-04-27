@@ -24,11 +24,18 @@ public class PetController {
         return new ResponseEntity<>("entity is added!", HttpStatus.CREATED);
     }
 
-    @PostMapping("/upload/files")
-    ResponseEntity<String> uploadFromFile(@RequestParam("file") MultipartFile multipartFile){
-        service.uploadPetsFromFile(multipartFile);
+    @PostMapping("/upload/files/csv")
+    ResponseEntity<String> uploadFromFileCsv(@RequestParam("file") MultipartFile multipartFile){
+        service.uploadPetsFromFileCSV(multipartFile);
 
         return new ResponseEntity<>("entities is added from file!", HttpStatus.OK);
+    }
+
+    @PostMapping("/upload/files/xml")
+    ResponseEntity<String> uploadFromFileXml(@RequestParam("file") MultipartFile multipartFile){
+        service.uploadPetsFromFileXml(multipartFile);
+
+        return new ResponseEntity<>("entities is added from file!", HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{id}")

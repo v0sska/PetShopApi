@@ -15,7 +15,9 @@ public interface IPetsService {
 
     List<Pets> searchById(Long id);
 
-    void uploadPetsFromFile(MultipartFile fileToUpload);
+    void uploadPetsFromFileCSV(MultipartFile fileToUpload);
+
+    void uploadPetsFromFileXml(MultipartFile uploadFile);
 
     List<Pets> listAll();
 }
