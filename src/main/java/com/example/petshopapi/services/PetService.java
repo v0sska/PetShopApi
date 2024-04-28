@@ -50,34 +50,30 @@ public class PetService implements IPetsService {
         return repository.searchById(id);
     }
 
-    @SneakyThrows
     @Override
-    public void uploadPetsFromFileCSV(MultipartFile fileToUpload) {
-
-        List<PetsPojo> pojoList = csvParser.loadPetsFromCSV(fileToUpload);
-
-        List<Pets> uploadedPets = pojoList.stream()
-                .map(this::pojoToEntity)
-                .collect(Collectors.toList());
-
-        repository.saveAll(uploadedPets);
+    public List<Pets> listAll() {
+        return (List<Pets>) repository.findAll();
     }
 
     @SneakyThrows
     @Override
-    public void uploadPetsFromFileXml(MultipartFile uploadFile) {
-        List<PetsPojo> petsPojos = xmlParser.readPetsFromXml(uploadFile);
+    public void uploadPetsFromFile(MultipartFile fileToUpload) {
+        String fileName = fileToUpload.getOriginalFilename();
+
+        List<PetsPojo> petsPojos;
+
+        if(fileName != null && (fileName.endsWith(".csv") || fileName.endsWith(".CSV")))
+            petsPojos = csvParser.loadPetsFromCSV(fileToUpload);
+        else if(fileName != null && (fileName.endsWith(".xml") || fileName.endsWith(".XML")))
+            petsPojos = xmlParser.readPetsFromXml(fileToUpload);
+        else
+            throw new IllegalArgumentException("Unsupported format!");
 
         List<Pets> uploadedPets = petsPojos.stream()
                 .map(this::pojoToEntity)
                 .collect(Collectors.toList());
 
         repository.saveAll(uploadedPets);
-    }
-
-    @Override
-    public List<Pets> listAll() {
-        return (List<Pets>) repository.findAll();
     }
 
     private Pets pojoToEntity(PetsPojo petsPojo){
