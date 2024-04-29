@@ -1,6 +1,7 @@
 package com.example.petshopapi.parsers;
 
-import com.example.petshopapi.components.PetCategoryAnalyzer;
+import com.example.petshopapi.interfaces.IPetCategoryAnalyzer;
+import com.example.petshopapi.interfaces.IXmlParser;
 import com.example.petshopapi.pojo.PetsPojo;
 import com.example.petshopapi.xml_objects.Animal;
 import com.example.petshopapi.xml_objects.Animals;
@@ -19,10 +20,11 @@ import java.util.List;
 
 @Component
 @AllArgsConstructor
-public class XmlParser {
+public class XmlParser implements IXmlParser {
 
-    PetCategoryAnalyzer analyzer;
+    IPetCategoryAnalyzer analyzer;
 
+    @Override
    public List<PetsPojo> readPetsFromXml(MultipartFile fileToRead) throws IOException {
 
         File tempFile = File.createTempFile("temp", null);
@@ -38,18 +40,25 @@ public class XmlParser {
         Animals animals = xmlMapper.readValue(tempFile, Animals.class);
 
         for (Animal animal : animals.getAnimals()) {
-            PetsPojo pojo = new PetsPojo();
+            // Перевіряємо, чи всі обов'язкові атрибути присутні в об'єкті Animal
+            if (animal.getName() != null && animal.getType() != null && animal.getSex() != null &&
+                    animal.getWeight() != null && animal.getCost() != null) {
 
-            pojo.setName(animal.getName());
-            pojo.setType(animal.getType());
-            pojo.setSex(animal.getSex());
-            pojo.setWeight(animal.getWeight());
-            pojo.setCost(animal.getCost());
+                PetsPojo pojo = new PetsPojo();
 
-            analyzer.pojoCategoryChooser(pojo);
+                pojo.setName(animal.getName());
+                pojo.setType(animal.getType());
+                pojo.setSex(animal.getSex());
+                pojo.setWeight(animal.getWeight());
+                pojo.setCost(animal.getCost());
 
-            readedPojos.add(pojo);
+                analyzer.pojoCategoryChooser(pojo);
 
+                readedPojos.add(pojo);
+            } else {
+                // Якщо хоча б один з обов'язкових атрибутів відсутній, пропускаємо цей об'єкт
+                System.out.println("Animal with missing attributes skipped: " + animal.toString());
+            }
         }
 
         tempFile.delete();

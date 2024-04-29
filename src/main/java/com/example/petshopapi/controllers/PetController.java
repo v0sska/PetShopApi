@@ -18,34 +18,43 @@ public class PetController {
     private IPetsService service;
 
     @PostMapping("/add")
-    ResponseEntity<String> add(@RequestBody Pets pets){
-        service.add(pets);
+   public ResponseEntity<String> addPet(@RequestBody Pets pets){
+        service.addPet(pets);
 
         return new ResponseEntity<>("entity is added!", HttpStatus.CREATED);
     }
 
     @PostMapping("/upload/files")
-    ResponseEntity<String> uploadFromFile(@RequestParam("file") MultipartFile multipartFile){
+    public ResponseEntity<String> uploadFromFile(@RequestParam("file") MultipartFile multipartFile){
         service.uploadPetsFromFile(multipartFile);
 
         return new ResponseEntity<>("entities is added from file!", HttpStatus.CREATED);
     }
 
     @DeleteMapping("/delete/{id}")
-    ResponseEntity<String> deleteById(@PathVariable Long id){
+    public ResponseEntity<String> deleteById(@PathVariable Long id){
         service.deleteById(id);
 
         return new ResponseEntity<>("entity is deleted!", HttpStatus.OK);
     }
 
     @GetMapping("find/{id}")
-    List<Pets> searchById(@PathVariable Long id){
+    public List<Pets> searchById(@PathVariable Long id){
         return service.searchById(id);
     }
 
-    @GetMapping(("/all"))
-    List<Pets> listAll(){
-        return service.listAll();
+    @GetMapping("/filtred")
+    public List<Pets> filtredList(
+            @RequestParam(required = false) Long id,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) String type,
+            @RequestParam(required = false) String sex,
+            @RequestParam(required = false) Integer weight,
+            @RequestParam(required = false) Integer cost,
+            @RequestParam(required = false) Integer category){
+
+        return service.filtredList(name, type, sex, weight, cost, category, id);
+
     }
 
 }

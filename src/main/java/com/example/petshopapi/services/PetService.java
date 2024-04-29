@@ -1,10 +1,10 @@
 package com.example.petshopapi.services;
 
 import com.example.petshopapi.entities.Pets;
+import com.example.petshopapi.interfaces.ICsvParser;
 import com.example.petshopapi.interfaces.IPetCategoryAnalyzer;
 import com.example.petshopapi.interfaces.IPetsService;
-import com.example.petshopapi.parsers.CsvParser;
-import com.example.petshopapi.parsers.XmlParser;
+import com.example.petshopapi.interfaces.IXmlParser;
 import com.example.petshopapi.pojo.PetsPojo;
 import com.example.petshopapi.repositories.PetRepository;
 import lombok.AllArgsConstructor;
@@ -22,12 +22,12 @@ public class PetService implements IPetsService {
 
     private IPetCategoryAnalyzer analyzer;
 
-    private CsvParser csvParser;
+    private ICsvParser csvParser;
 
-    private XmlParser xmlParser;
+    private IXmlParser xmlParser;
 
     @Override
-    public void add(Pets pets) {
+    public void addPet(Pets pets) {
 
         analyzer.categoryChooser(pets);
 
@@ -48,11 +48,6 @@ public class PetService implements IPetsService {
     @Override
     public List<Pets> searchById(Long id) {
         return repository.searchById(id);
-    }
-
-    @Override
-    public List<Pets> listAll() {
-        return (List<Pets>) repository.findAll();
     }
 
     @SneakyThrows
@@ -76,6 +71,31 @@ public class PetService implements IPetsService {
         repository.saveAll(uploadedPets);
     }
 
+    @Override
+    public List<Pets> filtredList(String name, String type, String sex, Integer weight, Integer cost, Integer category, Long id) {
+        List<Pets> filter;
+
+        if(type != null && sex != null && category != -1)
+            filter = repository.searchByTypeAndCategoryAndSex(type, category, sex);
+        else if(type != null)
+            filter = repository.searchByType(type);
+        else if(name != null)
+            filter = repository.searchByName(name);
+        else if(sex != null)
+            filter = repository.searchBySex(sex);
+        else if(weight != null)
+            filter = repository.searchByWeight(weight);
+        else if(cost != null)
+            filter = repository.searchByCost(cost);
+        else if(category != null)
+            filter = repository.searchByCategory(category);
+        else if(id != null)
+            filter = repository.searchById(id);
+        else
+            filter = (List<Pets>) repository.findAll();
+        return filter;
+    }
+
     private Pets pojoToEntity(PetsPojo petsPojo){
         Pets pets = new Pets();
 
@@ -88,5 +108,7 @@ public class PetService implements IPetsService {
 
         return pets;
     }
+
+
 
 }

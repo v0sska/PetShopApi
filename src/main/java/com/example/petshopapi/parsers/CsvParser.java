@@ -1,5 +1,6 @@
 package com.example.petshopapi.parsers;
 
+import com.example.petshopapi.interfaces.ICsvParser;
 import com.example.petshopapi.interfaces.IPetCategoryAnalyzer;
 import com.example.petshopapi.pojo.PetsPojo;
 import lombok.AllArgsConstructor;
@@ -11,11 +12,12 @@ import java.util.List;
 
 @Component
 @AllArgsConstructor
-public class CsvParser {
+public class CsvParser implements ICsvParser {
 
     private IPetCategoryAnalyzer analyzer;
 
 
+    @Override
     public List<PetsPojo> loadPetsFromCSV(MultipartFile file) throws IOException {
         List<PetsPojo> petsPojos = new ArrayList<>();
 
@@ -25,7 +27,7 @@ public class CsvParser {
             while ((line = br.readLine()) != null) {
                 if (firstLine) {
                     firstLine = false;
-                    continue; // Пропускаємо перший рядок
+                    continue; //Skip first line
                 }
                 String[] data = line.split(",");
 
@@ -33,7 +35,7 @@ public class CsvParser {
                 for (String field : data) {
                     if (field.isEmpty()) {
                         skipRow = true;
-                        break; // Якщо хоча б одне поле порожнє, пропускаємо рядок
+                        break; // Skip object if at least one field is empty
                     }
                 }
                 if (skipRow) {
@@ -54,7 +56,7 @@ public class CsvParser {
 
                     petsPojos.add(pet);
                 } else
-                    continue;
+                    continue; //Skip fields which not valid to objects
             }
         }
         return petsPojos;

@@ -1,15 +1,13 @@
 package com.example.petshopapi.xml_objects;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @AllArgsConstructor
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Animal {
 
    @JacksonXmlProperty(localName = "name", isAttribute = true)
@@ -22,10 +20,10 @@ public class Animal {
     private String sex;
 
     @JacksonXmlProperty(localName = "weight", isAttribute = true)
-    private int weight;
+    private Integer weight;
 
     @JacksonXmlProperty(localName = "cost", isAttribute = true)
-    private int cost;
+    private Integer cost;
 
     @JacksonXmlProperty(localName = "category", isAttribute = true)
     private int category;

@@ -11,6 +11,8 @@ public interface PetRepository extends CrudRepository<Pets, Long> {
 
     List<Pets> searchByCategory(int category);
 
+    List<Pets> searchByType(String type);
+
     List<Pets> searchByName(String name);
 
     List<Pets> searchBySex(String sex);
@@ -18,4 +20,6 @@ public interface PetRepository extends CrudRepository<Pets, Long> {
     List<Pets> searchByWeight(int weight);
 
     List<Pets> searchByCost(int cost);
+
+    List<Pets> searchByTypeAndCategoryAndSex(String type, int category, String sex);
 }

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IPetsService {
 
-    void add(Pets pets);
+    void addPet(Pets pets);
 
     void deleteById(Long id);
 
@@ -15,7 +15,7 @@ public interface IPetsService {
 
     List<Pets> searchById(Long id);
 
-    List<Pets> listAll();
-
     void uploadPetsFromFile(MultipartFile fileToUpload);
+
+    List<Pets> filtredList(String name, String type, String sex, Integer weight, Integer cost, Integer category, Long id);
 }
