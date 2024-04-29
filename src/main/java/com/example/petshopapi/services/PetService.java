@@ -72,7 +72,7 @@ public class PetService implements IPetsService {
     }
 
     @Override
-    public List<Pets> filtredList(String name, String type, String sex, Integer weight, Integer cost, Integer category, Long id) {
+    public List<Pets> findPetsByCriteria(String name, String type, String sex, Integer weight, Integer cost, Integer category, Long id) {
         List<Pets> filter;
 
         if(type != null && sex != null && category != -1)

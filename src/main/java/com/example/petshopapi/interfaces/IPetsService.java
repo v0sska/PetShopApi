@@ -17,5 +17,5 @@ public interface IPetsService {
 
     void uploadPetsFromFile(MultipartFile fileToUpload);
 
-    List<Pets> filtredList(String name, String type, String sex, Integer weight, Integer cost, Integer category, Long id);
+    List<Pets> findPetsByCriteria(String name, String type, String sex, Integer weight, Integer cost, Integer category, Long id);
 }

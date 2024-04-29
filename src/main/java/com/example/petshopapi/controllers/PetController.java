@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
-@RequestMapping("/pet-shop")
+@RequestMapping("/api/pet-data")
 @AllArgsConstructor
 public class PetController {
 
@@ -37,14 +37,8 @@ public class PetController {
 
         return new ResponseEntity<>("entity is deleted!", HttpStatus.OK);
     }
-
-    @GetMapping("find/{id}")
-    public List<Pets> searchById(@PathVariable Long id){
-        return service.searchById(id);
-    }
-
-    @GetMapping("/filtred")
-    public List<Pets> filtredList(
+    @GetMapping("/find")
+    public List<Pets> findPetsByCriteria(
             @RequestParam(required = false) Long id,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) String type,
@@ -53,7 +47,7 @@ public class PetController {
             @RequestParam(required = false) Integer cost,
             @RequestParam(required = false) Integer category){
 
-        return service.filtredList(name, type, sex, weight, cost, category, id);
+        return service.findPetsByCriteria(name, type, sex, weight, cost, category, id);
 
     }
 

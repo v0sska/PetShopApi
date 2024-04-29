@@ -1,0 +1,132 @@
+openapi: 3.0.0
+info:
+  title: /api/data-pet
+  description: Api for tech task
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local server
+paths:
+  /add:
+    post:
+      summary: Adding a pet to database
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pets'
+      responses:
+        '201':
+          description: Created
+        '400':
+          description: Bad request
+        '500':
+          description: Internal server error
+  /upload/files:
+    post:
+      summary: Adding a pet or pets to database from xml or csv files.All fields in object required otherwise object will be ignored
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: 'Entities is added from file!'
+        '400':
+          description: 'Bad request'
+        '500':
+          description: 'Internal Server error'
+  /delete/{id}:
+    delete:
+      summary: Delete pet
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Delete pet by id
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: 'Entity is deleted!'
+        '400':
+          description: 'Bad request'
+        '500':
+          description: 'Internal Server error'
+  /find:
+    get:
+      summary: Find a pets by criteria.If all criteria are missing then will be return all pets in database
+      parameters:
+        - in: query
+          name: id
+          schema:
+            type: integer
+          description: ID pet
+        - in: query
+          name: name
+          schema:
+            type: string
+          description: Pet name
+        - in: query
+          name: type
+          schema:
+            type: string
+          description: Pet type
+        - in: query
+          name: sex
+          schema:
+            type: string
+          description: Pet sex
+        - in: query
+          name: weight
+          schema:
+            type: integer
+          description: Pet weight
+        - in: query
+          name: cost
+          schema:
+            type: integer
+          description: Pet cost
+        - in: query
+          name: category
+          schema:
+            type: integer
+          description: Pet category
+      responses:
+        '200':
+          description: Успішний запит
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Pets'
+
+
+
+components:
+  schemas:
+    Pets:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        type:
+          type: string
+        sex:
+          type: string
+        weight:
+          type: integer
+        cost:
+          type: integer
+        category:
+          type: integer
