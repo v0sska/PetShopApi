@@ -39,8 +39,8 @@ public class CsvParser implements ICsvParser {
                     }
                 }
                 if (skipRow) {
-                    System.out.println("Пропущено рядок: " + line);
-                    continue; // Пропускаємо рядок з порожнім полем
+                    System.out.println("Skipped line: " + line);
+                    continue; // Skip the line with empty field
                 }
 
                 if (data.length == 5) {

@@ -11,10 +11,6 @@ public interface IPetsService {
 
     void deleteById(Long id);
 
-    void updateById(Long id, Pets pets);
-
-    List<Pets> searchById(Long id);
-
     void uploadPetsFromFile(MultipartFile fileToUpload);
 
     List<Pets> findPetsByCriteria(String name, String type, String sex, Integer weight, Integer cost, Integer category, Long id);

@@ -7,6 +7,7 @@ import com.example.petshopapi.xml_objects.Animal;
 import com.example.petshopapi.xml_objects.Animals;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import lombok.AllArgsConstructor;
+import org.springframework.boot.autoconfigure.couchbase.CouchbaseProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -29,7 +30,7 @@ public class XmlParser implements IXmlParser {
 
         File tempFile = File.createTempFile("temp", null);
 
-        // Запис даних з MultipartFile в тимчасовий файл
+
         try (OutputStream os = new FileOutputStream(tempFile)) {
             FileCopyUtils.copy(fileToRead.getInputStream(), os);
         }
@@ -40,7 +41,7 @@ public class XmlParser implements IXmlParser {
         Animals animals = xmlMapper.readValue(tempFile, Animals.class);
 
         for (Animal animal : animals.getAnimals()) {
-            // Перевіряємо, чи всі обов'язкові атрибути присутні в об'єкті Animal
+            //Check the requirement attributes is not missing
             if (animal.getName() != null && animal.getType() != null && animal.getSex() != null &&
                     animal.getWeight() != null && animal.getCost() != null) {
 
@@ -56,7 +57,6 @@ public class XmlParser implements IXmlParser {
 
                 readedPojos.add(pojo);
             } else {
-                // Якщо хоча б один з обов'язкових атрибутів відсутній, пропускаємо цей об'єкт
                 System.out.println("Animal with missing attributes skipped: " + animal.toString());
             }
         }

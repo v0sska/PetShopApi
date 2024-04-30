@@ -40,16 +40,6 @@ public class PetService implements IPetsService {
         repository.deleteById(id);
     }
 
-    @Override
-    public void updateById(Long id, Pets pets) {
-
-    }
-
-    @Override
-    public List<Pets> searchById(Long id) {
-        return repository.searchById(id);
-    }
-
     @SneakyThrows
     @Override
     public void uploadPetsFromFile(MultipartFile fileToUpload) {
@@ -108,7 +98,4 @@ public class PetService implements IPetsService {
 
         return pets;
     }
-
-
-
 }
