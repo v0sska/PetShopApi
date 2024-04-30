@@ -1,4 +1,5 @@
-This project was writed in Java 17.0.10 and SpringBoot 3.2.5
+This project was writed in Java 17.0.10 and SpringBoot 3.2.5.
+Database is postgreSQL and used docker compose and liquibase for create a db. 
 Swagger file is located in resources/static folder.
 You can upload xml or csv file for to fill database by multipart file.
 
