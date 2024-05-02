@@ -41,11 +41,12 @@ public class Pets {
     @Schema(description = "Name of pet")
     private int category;
 
-    public Pets(String name, String type, String sex, int weight, int cost) {
+    public Pets(String name, String type, String sex, int weight, int cost, int category) {
         this.name = name;
         this.type = type;
         this.sex = sex;
         this.weight = weight;
         this.cost = cost;
+        this.category = category;
     }
 }
